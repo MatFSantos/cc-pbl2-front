@@ -33,28 +33,36 @@ export default function Home() {
   const {
     pined,
     pacientes,
-    onClick,
+    getPatient,
     more,
     seeMore,
     bool,
-    connection,
+    getPatients,
+    numberPatients,
     erro,
     loading,
   } = UseIndex();
 
   useEffect(() => {
-    connection();
+    setInterval(() => {
+      getPatients(numberPatients);
+    }, 5000);
   }, []);
+  useEffect(() => {
+    if (pined != null) {
+      setInterval(() => {
+        getPatients(numberPatients);
+      }, 2000);
+    }
+  }, [pined]);
   return (
     <ContainerApp>
       <ContainerFixed
         in={bool}
         sx={
           pined
-            ? pined.situacao === 'Grave'
+            ? pined.state === 'Grave'
               ? { backgroundColor: '#ff0000b2' }
-              : pined.situacao === 'Instável'
-              ? { backgroundColor: '#ff9100c1' }
               : { backgroundColor: '#008a0090' }
             : { backgroundColor: 'white' }
         }
@@ -73,10 +81,10 @@ export default function Home() {
                   fontFamily: 'Montserrat',
                 }}
               >
-                {pined.nome}
+                {pined.id}
               </Typography>
               <Typography sx={{ color: 'white', fontFamily: 'Montserrat' }}>
-                {pined.situacao}
+                {pined.state}
               </Typography>
             </InformationPacient>
             <DataPacient
@@ -98,38 +106,18 @@ export default function Home() {
         >
           Lista de Pacientes
         </Typography>
-        {erro ? (
-          <>
-            <Typography color={'error'}>{erro}</Typography>
-            <Button
-              sx={{
-                margin: '5px 50px 10px 50px',
-                maxHeight: '36px',
-              }}
-              variant={'contained'}
-              onClick={() => connection()}
-              disabled={loading}
-            >
-              {loading ? <CircularProgress /> : ''}reconectar
-            </Button>
-          </>
-        ) : (
-          ''
-        )}
         <ListStyle>
           {pacientes.length > 0 ? (
             pacientes.map((paciente, index) => (
               <ListItem
                 key={index}
                 sx={
-                  paciente.situacao === 'Grave'
+                  paciente.state === 'Grave'
                     ? { backgroundColor: '#ff0000b2' }
-                    : paciente.situacao === 'Instável'
-                    ? { backgroundColor: '#ff9100c1' }
                     : { backgroundColor: '#008a0090' }
                 }
               >
-                <Tooltip title={paciente.nome}>
+                <Tooltip title={paciente.id}>
                   <ListItemAvatar>
                     <Avatar>
                       <Face />
@@ -137,7 +125,7 @@ export default function Home() {
                   </ListItemAvatar>
                 </Tooltip>
                 <ListItemText
-                  primary={paciente.nome}
+                  primary={paciente.id}
                   secondary={
                     <Tooltip
                       title={more === index.toString() ? 'Menos' : 'Mais'}
@@ -169,14 +157,14 @@ export default function Home() {
                   />
                 </Collapse>
                 <Typography color={'white'} fontFamily={'Montserrat'}>
-                  {paciente.situacao}
+                  {paciente.state}
                 </Typography>
                 <ListItemSecondaryAction>
                   <Tooltip title={pined === paciente ? 'Desfixar' : 'Fixar'}>
                     <IconButton
                       edge="end"
                       aria-label={pined === paciente ? 'Desfixar' : 'Fixar'}
-                      onClick={() => onClick(index)}
+                      onClick={() => getPatient(paciente.id)}
                       sx={{ color: 'black' }}
                     >
                       {pined === paciente ? (

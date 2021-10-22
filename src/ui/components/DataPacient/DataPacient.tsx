@@ -37,7 +37,7 @@ const DataPacient: React.FC<DataPacienteProps> = ({
           variant={variant === 'small' ? 'caption' : 'body1'}
           color={text}
         >
-          {paciente.temperatura}°C
+          {paciente.sensor.temperature}°C
         </Typography>
       </div>
       <div>
@@ -51,7 +51,7 @@ const DataPacient: React.FC<DataPacienteProps> = ({
           variant={variant === 'small' ? 'caption' : 'body1'}
           color={text}
         >
-          {paciente.freq_resp}mpm
+          {paciente.sensor.respiratoryRate}mpm
         </Typography>
       </div>
       <div>
@@ -65,7 +65,7 @@ const DataPacient: React.FC<DataPacienteProps> = ({
           variant={variant === 'small' ? 'caption' : 'body1'}
           color={text}
         >
-          {paciente.freq_card}bpm
+          {paciente.sensor.heartRate}bpm
         </Typography>
       </div>
       <div>
@@ -79,7 +79,7 @@ const DataPacient: React.FC<DataPacienteProps> = ({
           variant={variant === 'small' ? 'caption' : 'body1'}
           color={text}
         >
-          {paciente.pressao}mm Hg
+          {paciente.sensor.arterialPressure}mm Hg
         </Typography>
       </div>
       <div>
@@ -93,7 +93,7 @@ const DataPacient: React.FC<DataPacienteProps> = ({
           variant={variant === 'small' ? 'caption' : 'body1'}
           color={text}
         >
-          {paciente.oxigenacao}%
+          {paciente.sensor.bloodOxygenation}%
         </Typography>
       </div>
     </DataPacientContainer>
