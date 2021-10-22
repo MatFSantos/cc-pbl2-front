@@ -48,13 +48,13 @@ export default function Home() {
       getPatients(numberPatients);
     }, 5000);
   }, []);
-  useEffect(() => {
-    if (pined != null) {
-      setInterval(() => {
-        getPatients(numberPatients);
-      }, 2000);
-    }
-  }, [pined]);
+  // useEffect(() => {
+  //   if (pined != null) {
+  //     setInterval(() => {
+  //       getPatients(numberPatients);
+  //     }, 2000);
+  //   }
+  // }, [pined]);
   return (
     <ContainerApp>
       <ContainerFixed
