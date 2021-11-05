@@ -26,7 +26,7 @@ export default function UseIndex() {
     setFuncPatients(
       setInterval(() => {
         getPatients(numberPatients);
-      }, 5000)
+      }, 10000)
     );
   }
 
@@ -52,30 +52,6 @@ export default function UseIndex() {
     } catch (e) {
       setErro('Erro ao atualizar os pacientes');
     }
-    // setPacientes([
-    //   {
-    //     id: '1020',
-    //     state: 'Estável',
-    //     sensor: {
-    //       temperature: '30',
-    //       respiratoryRate: '10',
-    //       heartRate: '80',
-    //       bloodOxygenation: '99',
-    //       arterialPressure: '110',
-    //     },
-    //   },
-    //   {
-    //     id: '1040',
-    //     state: 'Estável',
-    //     sensor: {
-    //       temperature: '30',
-    //       respiratoryRate: '10',
-    //       heartRate: '80',
-    //       bloodOxygenation: '99',
-    //       arterialPressure: '110',
-    //     },
-    //   },
-    // ]);
   }
 
   return {

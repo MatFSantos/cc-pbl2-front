@@ -59,7 +59,7 @@ export default function Home() {
     setFuncPatients(
       setInterval(() => {
         getPatients(numberPatients);
-      }, 5000)
+      }, 10000)
     );
   }, []);
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function Home() {
       setFuncPatient(
         setInterval(() => {
           getPatient(idPined);
-        }, 2000)
+        }, 3000)
       );
     } else {
       if (funcPatient != null) {
