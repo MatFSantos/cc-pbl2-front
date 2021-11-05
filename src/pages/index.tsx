@@ -55,6 +55,7 @@ export default function Home() {
   } = UseIndex();
 
   useEffect(() => {
+    getPatients(numberPatients);
     setFuncPatients(
       setInterval(() => {
         getPatients(numberPatients);
