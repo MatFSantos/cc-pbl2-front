@@ -10,6 +10,7 @@ import {
   Collapse,
   Button,
   CircularProgress,
+  TextField,
 } from '@material-ui/core';
 import {
   CheckCircleOutline,
@@ -41,20 +42,44 @@ export default function Home() {
     numberPatients,
     erro,
     loading,
+    idPined,
+    setFuncPatient,
+    funcPatient,
+    setFuncPatients,
+    funcPatients,
+    setIdPined,
+    setPined,
+    setBool,
+    setNumberPatients,
+    changeNumberPatients,
   } = UseIndex();
 
   useEffect(() => {
-    setInterval(() => {
-      getPatients(numberPatients);
-    }, 5000);
+    setFuncPatients(
+      setInterval(() => {
+        getPatients(numberPatients);
+      }, 5000)
+    );
   }, []);
-  // useEffect(() => {
-  //   if (pined != null) {
-  //     setInterval(() => {
-  //       getPatients(numberPatients);
-  //     }, 2000);
-  //   }
-  // }, [pined]);
+  useEffect(() => {
+    if (idPined != '-1') {
+      if (funcPatient != null) {
+        clearInterval(funcPatient);
+      }
+
+      setFuncPatient(
+        setInterval(() => {
+          getPatient(idPined);
+        }, 2000)
+      );
+    } else {
+      if (funcPatient != null) {
+        clearInterval(funcPatient);
+      }
+      setPined(null);
+      setBool(false);
+    }
+  }, [idPined]);
   return (
     <ContainerApp>
       <ContainerFixed
@@ -100,6 +125,23 @@ export default function Home() {
         )}
       </ContainerFixed>
       <ContainerList>
+        <div>
+          <TextField
+            onChange={(event) => setNumberPatients(event.target.value)}
+            value={numberPatients}
+            type={'number'}
+            style={{ padding: '15px' }}
+            required
+          />
+          <Button
+            variant={'contained'}
+            onClick={() => changeNumberPatients()}
+            style={{ margin: '20px 15px 15px 0' }}
+            disabled={!numberPatients}
+          >
+            Alterar
+          </Button>
+        </div>
         <Typography
           variant={'h3'}
           sx={{ fontWeight: 'bold', fontFamily: 'Montserrat' }}
@@ -164,10 +206,20 @@ export default function Home() {
                     <IconButton
                       edge="end"
                       aria-label={pined === paciente ? 'Desfixar' : 'Fixar'}
-                      onClick={() => getPatient(paciente.id)}
+                      onClick={() => {
+                        if (idPined === paciente.id) {
+                          setIdPined('-1');
+                          setBool(false);
+                          setPined(null);
+                        } else {
+                          setIdPined(paciente.id);
+                          setPined(paciente);
+                          setBool(true);
+                        }
+                      }}
                       sx={{ color: 'black' }}
                     >
-                      {pined === paciente ? (
+                      {idPined === paciente.id ? (
                         <CheckCircle />
                       ) : (
                         <CheckCircleOutline />

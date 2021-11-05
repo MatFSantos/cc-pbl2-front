@@ -9,8 +9,10 @@ export default function UseIndex() {
     [bool, setBool] = useState(false),
     [erro, setErro] = useState(''),
     [loading, setLoading] = useState(false),
-    [numberPatients, setNumberPatients] = useState(5),
-    [methodInterval, setMethodInterval] = useState<any>(null);
+    [numberPatients, setNumberPatients] = useState('5'),
+    [idPined, setIdPined] = useState('-1'),
+    [funcPatient, setFuncPatient] = useState<any>(null),
+    [funcPatients, setFuncPatients] = useState<any>(null);
 
   function seeMore(index: number) {
     if (more === index.toString()) {
@@ -19,30 +21,28 @@ export default function UseIndex() {
       setMore(index.toString());
     }
   }
-
-  async function getPatient(id: string) {
-    if (methodInterval != null) {
-      clearInterval(methodInterval);
-    }
-    get(id);
-    var interval = setInterval(() => {
-      get(id);
-    }, 2000);
-    setMethodInterval(interval);
+  function changeNumberPatients() {
+    clearInterval(funcPatients);
+    setFuncPatients(
+      setInterval(() => {
+        getPatients(numberPatients);
+      }, 5000)
+    );
   }
 
-  async function get(id: string) {
+  async function getPatient(id: string) {
     try {
       const { data } = await ApiService.get<PacienteInterface>(
         `/patient/${id}`
       );
       setPined(data);
+      console.log(data);
     } catch {
       setErro('Errou ao pinar o paciente');
     }
   }
 
-  async function getPatients(numberPatients: number) {
+  async function getPatients(numberPatients) {
     setErro('');
     try {
       const { data } = await ApiService.get<PacienteInterface[]>(
@@ -52,6 +52,30 @@ export default function UseIndex() {
     } catch (e) {
       setErro('Erro ao atualizar os pacientes');
     }
+    // setPacientes([
+    //   {
+    //     id: '1020',
+    //     state: 'Estável',
+    //     sensor: {
+    //       temperature: '30',
+    //       respiratoryRate: '10',
+    //       heartRate: '80',
+    //       bloodOxygenation: '99',
+    //       arterialPressure: '110',
+    //     },
+    //   },
+    //   {
+    //     id: '1040',
+    //     state: 'Estável',
+    //     sensor: {
+    //       temperature: '30',
+    //       respiratoryRate: '10',
+    //       heartRate: '80',
+    //       bloodOxygenation: '99',
+    //       arterialPressure: '110',
+    //     },
+    //   },
+    // ]);
   }
 
   return {
@@ -65,5 +89,15 @@ export default function UseIndex() {
     numberPatients,
     erro,
     loading,
+    idPined,
+    setFuncPatient,
+    funcPatient,
+    funcPatients,
+    setFuncPatients,
+    changeNumberPatients,
+    setIdPined,
+    setPined,
+    setBool,
+    setNumberPatients,
   };
 }
