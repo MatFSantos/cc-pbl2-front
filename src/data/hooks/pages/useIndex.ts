@@ -23,6 +23,7 @@ export default function UseIndex() {
   }
   function changeNumberPatients() {
     clearInterval(funcPatients);
+    getPatients(numberPatients);
     setFuncPatients(
       setInterval(() => {
         getPatients(numberPatients);

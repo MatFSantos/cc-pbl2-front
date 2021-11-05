@@ -67,7 +67,7 @@ export default function Home() {
       if (funcPatient != null) {
         clearInterval(funcPatient);
       }
-
+      getPatient(idPined);
       setFuncPatient(
         setInterval(() => {
           getPatient(idPined);
